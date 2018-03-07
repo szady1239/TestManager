@@ -1,6 +1,5 @@
 package pl.szady.testmanager.model;
 
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,22 +11,24 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "Project")
-public class Project {
+@Table(name = "TestSuite")
+public class TestSuite {
 
     @Id
     @Column(name = "UID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long uid;
 
-    @Column(name = "ProjectName")
-    private String projectName;
+    @Column(name = "TestSuiteName")
+    private String testSuiteName;
 
-    @Column(name = "Description")
-    private String description;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "testSuite")
+    private List<TestCase> testCaseList;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "project")
-    private List<TestSuite> testSuiteList;
+    @ManyToOne
+    @JoinColumn(name = "project_id")
+    private Project project;
+
 
 
 }
